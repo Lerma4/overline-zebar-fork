@@ -46,9 +46,12 @@ function TimeTab() {
       <FormField>
         <FieldTitle>Time Format</FieldTitle>
         <FieldInput>
-          <Select value={timeFormat} onValueChange={setTimeFormat}>
+          <Select
+            value={timeFormat}
+            onValueChange={(value) => setTimeFormat(value as string)}
+          >
             <SelectTrigger>
-              <SelectValue placeholder="Select a time format" />
+              <SelectValue />
             </SelectTrigger>
             <SelectContent>
               {TIME_FORMATS.map((format) => (
@@ -67,9 +70,12 @@ function TimeTab() {
       <FormField>
         <FieldTitle>Time Locale</FieldTitle>
         <FieldInput>
-          <Select value={timeLocale} onValueChange={setTimeLocale}>
+          <Select
+            value={timeLocale}
+            onValueChange={(value) => setTimeLocale(value as string)}
+          >
             <SelectTrigger>
-              <SelectValue placeholder="Select a locale" />
+              <SelectValue />
             </SelectTrigger>
             <SelectContent>
               {TIME_LOCALES.map((locale) => (

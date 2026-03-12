@@ -1,4 +1,4 @@
-import { AllWidgetSettings, RootConfig } from '../types';
+import { RootConfig, WidgetSettingsMap } from '../types';
 import { useConfigDispatch, useConfigState } from './useConfigContext';
 
 export function useAppSetting<K extends keyof RootConfig['app']>(key: K) {
@@ -28,18 +28,28 @@ export function useAppSetting<K extends keyof RootConfig['app']>(key: K) {
 }
 
 export function useWidgetSetting<
-  T extends keyof AllWidgetSettings,
-  K extends string,
->(widgetName: T, key: K) {
+  W extends keyof WidgetSettingsMap,
+  K extends keyof WidgetSettingsMap[W],
+>(
+  widgetName: W,
+  key: K
+): [WidgetSettingsMap[W][K], (value: WidgetSettingsMap[W][K]) => void] {
   const state = useConfigState();
   const dispatch = useConfigDispatch();
 
-  const widgets = state.widgets as Record<string, Record<string, unknown>>;
-  const value = widgets[widgetName]?.[key];
+  const widgets = state.widgets as WidgetSettingsMap;
+  const value = (widgets[widgetName] as Record<string, unknown>)?.[
+    key as string
+  ] as WidgetSettingsMap[W][K];
 
-  const setValue = (value: unknown) => {
-    dispatch({ type: 'SET_WIDGET_SETTING', widget: widgetName, key, value });
+  const setValue = (value: WidgetSettingsMap[W][K]) => {
+    dispatch({
+      type: 'SET_WIDGET_SETTING',
+      widget: widgetName,
+      key: key as string,
+      value,
+    });
   };
 
-  return [value, setValue] as const;
+  return [value, setValue];
 }

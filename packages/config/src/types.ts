@@ -7,6 +7,7 @@ import {
   MainWidgetSettingsSchema,
   ProviderSettingsSchema,
   RootConfigSchema,
+  ScriptLauncherWidgetSettingsSchema,
   ThemeSchema,
   WeatherThresholdSchema,
 } from './zod-types';
@@ -17,7 +18,16 @@ export type WeatherThreshold = z.infer<typeof WeatherThresholdSchema>;
 export type Threshold = WeatherThreshold;
 export type AppSettings = z.infer<typeof AppSettingsSchema>;
 export type MainWidgetSettings = z.infer<typeof MainWidgetSettingsSchema>;
+export type ScriptLauncherWidgetSettings = z.infer<
+  typeof ScriptLauncherWidgetSettingsSchema
+>;
 export type AllWidgetSettings = z.infer<typeof AllWidgetSettingsSchema>;
 export type RootConfig = z.infer<typeof RootConfigSchema>;
 export type ProviderSettings = z.infer<typeof ProviderSettingsSchema>;
 export type LauncherCommand = z.infer<typeof LauncherCommandSchema>;
+
+export type WidgetSettingsMap = {
+  main: MainWidgetSettings;
+  'script-launcher': ScriptLauncherWidgetSettings;
+  'config-widget': Record<string, unknown>;
+};

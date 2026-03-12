@@ -12,8 +12,11 @@ export type {
   AllWidgetSettings,
   AppSettings,
   LabelColor,
+  MainWidgetSettings,
   ProviderSettings,
   RootConfig,
+  ScriptLauncherWidgetSettings,
   Theme,
   Threshold,
+  WidgetSettingsMap,
 } from './types';

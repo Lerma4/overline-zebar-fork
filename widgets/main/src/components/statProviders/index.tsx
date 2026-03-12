@@ -39,7 +39,7 @@ export default function StatProviders({
     'systemStatThresholds'
   );
   const chipRef = useRef<HTMLDivElement | null>(null);
-  const statIconClassnames = 'size-3.5 -mt-0.5 text-icon';
+  const statIconClassnames = 'size-3.5 text-icon';
 
   if (allProvidersDisabled) return null;
 

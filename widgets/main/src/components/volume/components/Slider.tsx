@@ -41,7 +41,7 @@ export default function Slider({
       <RadixSlider.Root
         ref={ref}
         value={[value]}
-        onValueChange={([v]) => setValue(Math.floor(v))}
+        onValueChange={([v]) => v !== undefined && setValue(Math.floor(v))}
         onClick={(e) => e.stopPropagation()}
         step={0.01}
         className="relative flex w-full cursor-grab touch-none select-none rounded-full items-center active:cursor-grabbing"
