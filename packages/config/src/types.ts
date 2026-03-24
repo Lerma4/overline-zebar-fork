@@ -9,13 +9,12 @@ import {
   RootConfigSchema,
   ScriptLauncherWidgetSettingsSchema,
   ThemeSchema,
-  WeatherThresholdSchema,
+  ThresholdSchema,
 } from './zod-types';
 
 export type Theme = z.infer<typeof ThemeSchema>;
 export type LabelColor = z.infer<typeof LabelColorSchema>;
-export type WeatherThreshold = z.infer<typeof WeatherThresholdSchema>;
-export type Threshold = WeatherThreshold;
+export type Threshold = z.infer<typeof ThresholdSchema>;
 export type AppSettings = z.infer<typeof AppSettingsSchema>;
 export type MainWidgetSettings = z.infer<typeof MainWidgetSettingsSchema>;
 export type ScriptLauncherWidgetSettings = z.infer<

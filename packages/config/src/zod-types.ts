@@ -16,7 +16,7 @@ export const LabelColorSchema = z.union([
 
 export const BaseWidgetSettingsSchema = z.object({});
 
-export const WeatherThresholdSchema = z.object({
+export const ThresholdSchema = z.object({
   id: z.string(),
   min: z.number(),
   max: z.number(),
@@ -41,7 +41,7 @@ export const ProviderSettingsSchema = z.object({
 export const MainWidgetSettingsSchema = BaseWidgetSettingsSchema.extend({
   flowLauncherPath: z.string().default(''),
   mediaMaxWidth: z.string().default('400'),
-  weatherThresholds: z.array(WeatherThresholdSchema).default([]),
+  weatherThresholds: z.array(ThresholdSchema).default([]),
   weatherUnit: z
     .union([z.literal('celsius'), z.literal('fahrenheit')])
     .default('celsius'),
@@ -53,7 +53,7 @@ export const MainWidgetSettingsSchema = BaseWidgetSettingsSchema.extend({
   timeFormat: z.string().default('EEE d MMM t'),
   timeLocale: z.string().default('en-GB'),
   providers: ProviderSettingsSchema.default({}),
-  systemStatThresholds: z.array(WeatherThresholdSchema).default([]),
+  systemStatThresholds: z.array(ThresholdSchema).default([]),
   useInlineStats: z.boolean().default(false),
 });
 
