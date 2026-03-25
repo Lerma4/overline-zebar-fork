@@ -5,6 +5,24 @@ import { Chip } from '@overline-zebar/ui';
 import { calculateWidgetPlacementFromRight } from '../../utils/calculateWidgetPlacement';
 import { getWeatherIcon } from '../../utils/weatherIcons';
 
+// ============================================================================
+// BATTERY TESTING - Toggle this variable to test different battery levels
+// ============================================================================
+const TEST_BATTERY: zebar.BatteryOutput | null = {
+  chargePercent: 65, // Change to test: 15 (danger), 25 (warning), 55 (text)
+  isCharging: true, // Toggle true/false to test charging states
+  healthPercent: 92,
+  cycleCount: 250,
+  powerConsumption: 12.5,
+  voltage: 11.4,
+  timeTillFull: null,
+  timeTillEmpty: 7200000,
+  state: 'discharging',
+};
+// Set to null to use real battery, or uncomment above to test
+const USE_TEST_BATTERY = false; // Toggle to true to enable testing
+// ============================================================================
+
 import Stat from '../stat/Stat';
 
 import {
@@ -89,7 +107,7 @@ export default function StatProviders({
       )}
 
       <BatteryStat
-        battery={battery}
+        battery={USE_TEST_BATTERY ? TEST_BATTERY : battery}
         batteryProvider={statProviders.battery}
         batteryThresholds={batteryThresholds}
       />
@@ -115,14 +133,12 @@ function BatteryStat({
   const renderBatteryIcon = () => {
     if (battery.isCharging) {
       return (
-        <BatteryCharging strokeWidth={3} className="h-3.5 w-3.5 text-success" />
+        <BatteryCharging strokeWidth={3} className="h-3.5 w-3.5 text-icon" />
       );
     }
 
     if (chargePercent >= 80) {
-      return (
-        <BatteryFull strokeWidth={3} className="h-3.5 w-3.5 text-success" />
-      );
+      return <BatteryFull strokeWidth={3} className="h-3.5 w-3.5 text-icon" />;
     }
 
     if (chargePercent >= 40) {
@@ -131,9 +147,7 @@ function BatteryStat({
       );
     }
 
-    return (
-      <BatteryLow strokeWidth={3} className="h-3.5 w-3.5 text-destructive" />
-    );
+    return <BatteryLow strokeWidth={3} className="h-3.5 w-3.5 text-icon" />;
   };
 
   return (
