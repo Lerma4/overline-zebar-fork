@@ -55,9 +55,9 @@ export default function AudioOutputChip({
   if (SYSTEM_ENDPOINT_GUIDS.has(endpointGuid)) return null;
 
   return (
-    <Chip className="max-w-[220px] gap-1.5 px-3">
+    <Chip className="max-w-[112px] gap-1.5 px-2.5">
       {getOutputIcon(playbackDevice.name)}
-      <span className="max-w-[170px] truncate text-xs text-text">
+      <span className="max-w-[64px] truncate text-xs text-text">
         {playbackDevice.name}
       </span>
     </Chip>
