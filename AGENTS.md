@@ -68,7 +68,7 @@ Each widget is an independent Vite project that emits `widgets/<name>/dist/index
   const providers = zebar.createProviderGroup({ glazewm: { type: 'glazewm' }, media: { type: 'media' } });
   providers.onOutput(() => { /* read providers.outputMap */ });
   ```
-- Zebar discovers the pack as a **custom pack** if it lives in `~/.glzr/zebar/<dir>/zpack.json`; the pack ID is the `name` field of `zpack.json` (here `overline-zebar`, not "overline-fork" despite the install README — always double-check).
+- Zebar discovers the pack as a **custom pack** if it lives in `~/.glzr/zebar/<dir>/zpack.json`; the pack ID is the `name` field of `zpack.json`. Before debugging runtime behavior, verify both the repo copy and the deployed copy under `~/.glzr/zebar/`, because they can diverge.
 - The `transparent: true` flag and `dockToEdge` in the manifest affect layout/compositing: if you touch CSS that alters the background, verify the actual rendering inside Zebar.
 
 ### Widget-to-package dependencies
@@ -86,5 +86,6 @@ Widgets declare `@overline-zebar/ui`, `@overline-zebar/config`, `@overline-zebar
 ## Quick troubleshooting
 
 - Widget doesn't appear after a build → restart Zebar from the tray; if it persists, clear `$APPDATA/zebar/webview-cache`.
+- Widget still shows old behavior after a successful local build → make sure Zebar is actually loading the pack you edited under `~/.glzr/zebar/`; a separate deployed copy can lag behind the repo.
 - Monorepo build hangs → build the problematic widget from inside its folder, then re-run the full build.
 - `preinstall` fails → you're not using pnpm; activate corepack (`corepack prepare pnpm@latest --activate`).

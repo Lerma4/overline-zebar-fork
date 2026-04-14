@@ -8,6 +8,7 @@ import RightButtons from './components/rightButtons/RightButtons';
 import StatProviders from './components/statProviders';
 import Systray from './components/systray';
 import { TimeDisplay } from './components/TimeDisplay';
+import AudioOutputChip from './components/volume/AudioOutputChip';
 import VolumeControl from './components/volume';
 import { WindowTitle } from './components/windowTitle/WindowTitle';
 import { WorkspaceControls } from './components/WorkspaceControls';
@@ -80,6 +81,9 @@ function App() {
             cpu={output.cpu}
             memory={output.memory}
           />
+        </div>
+        <div className="flex items-center h-full">
+          <AudioOutputChip audio={output.audio} />
         </div>
         <div className="flex items-center h-full">
           <VolumeControl

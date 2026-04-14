@@ -15,6 +15,7 @@ This repository exists only to collect the **local customizations** I make on my
 | Area | Change |
 |------|--------|
 | `widgets/main/src/components/media/Media.tsx` | Added two dedicated **Skip Back** / **Skip Forward** buttons on the sides of the media chip; play/pause stays on the chip, the original `Shift/Ctrl/Alt+Click` shortcuts are preserved. |
+| `widgets/main/src/components/volume/AudioOutputChip.tsx` | Added an audio output chip between system stats and volume: it appears only when the active playback device is not one of the local system endpoints configured for this machine, so external headphones/speakers are shown without querying Windows at runtime. |
 
 The rest of the code is identical to upstream as of the fork point.
 
