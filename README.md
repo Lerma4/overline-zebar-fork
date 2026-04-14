@@ -1,185 +1,215 @@
-![Screenshot of overline-zebar in use with GlazeWM, previewing multiple themes and rounded settings](https://github.com/user-attachments/assets/08b4be9a-e405-4217-814b-aac7acd6e0f5)
+# overline-zebar-fork
 
-# overline-zebar
+> **Fork personale** di [`mushfikurr/overline-zebar`](https://github.com/mushfikurr/overline-zebar), una topbar per [Zebar](https://github.com/glzr-io/zebar) pensata per accoppiarsi a [GlazeWM](https://github.com/glzr-io/glazewm).
 
-A fully featured, highly customizable widget pack for [Zebar](https://github.com/glzr-io/zebar). Works in tandem with GlazeWM, perfect for making Windows look great 🌠
+## Ringraziamenti
 
-<img width="2124" height="437" alt="System stats widget, hovering from the main widget" src="https://github.com/user-attachments/assets/2846a6ec-8268-4fc0-bed4-1ff6bdb4df55" />
-<img width="1145" height="785" alt="Config widget window, centered on the screen" src="https://github.com/user-attachments/assets/e7536236-3e15-4066-b996-b90eb4f183d7" />
+Tutto il lavoro pesante è stato fatto da **[@mushfikurr](https://github.com/mushfikurr)**: architettura monorepo, design della topbar, widget di system stats, script launcher, config widget e tutto il codice originale. Grazie per avere reso pubblico un progetto così curato.
 
-To install: [Installation](#installation)
+Questo repository esiste solo per raccogliere le **personalizzazioni locali** che faccio sul mio setup. Non vuole competere con l'originale: se cerchi overline-zebar, installa quello. Se la mia versione ti interessa, sentiti libero di prenderla come ispirazione.
 
-## About The Project
+> ⚠️ Il repo originale non dichiara una licenza (`license: null`). In assenza di licenza, si applica "all rights reserved" per l'autore originale. Questo fork è mantenuto a uso personale; prima di redistribuire artefatti derivati contatta l'autore originale per chiarezza.
 
-This repository is a monorepo containing multiple widgets and packages that work together to provide a seamless and feature-rich experience for Zebar.
+## Cosa cambia rispetto all'upstream
 
-### Project Structure
+| Area | Modifica |
+|------|----------|
+| `widgets/main/src/components/media/Media.tsx` | Aggiunti due pulsanti dedicati **Skip Back** / **Skip Forward** ai lati della chip media; il play/pause resta sulla chip, gli shortcut `Shift/Ctrl/Alt+Click` originali sono preservati. |
 
-The project is organized into two main directories:
+Il resto del codice è identico all'upstream al momento del fork.
 
-- `packages/`: Contains shared code and components used across different widgets.
-  - `config`: Manages configuration for all widgets.
-  - `ui`: A component library with shared React components.
-  - `tailwind`: Shared Tailwind CSS configuration.
-  - `typescript`: Shared TypeScript configuration.
-- `widgets/`: Contains the individual widgets that can be used with Zebar.
-  - `main`: The main topbar widget.
-  - `system-stats`: A widget to display system statistics.
-  - `config-widget`: A graphical user interface to configure all widgets.
-  - `script-launcher`: A widget to quickly launch custom scripts.
+---
 
-## Features
+## Sommario
 
-### Main Widget
+- [Requisiti](#requisiti)
+- [Installazione rapida (pack locale)](#installazione-rapida-pack-locale)
+- [Struttura del progetto](#struttura-del-progetto)
+- [Workflow di sviluppo](#workflow-di-sviluppo)
+- [Come funziona l'integrazione con Zebar](#come-funziona-lintegrazione-con-zebar)
+- [Rollback](#rollback)
+- [Troubleshooting](#troubleshooting)
 
-The main widget is a topbar that provides a variety of features:
+---
 
-- **Media Controls**: Play/pause, skip tracks, and cycle through media sessions.
-- **Workspace Display**: View and switch between workspaces, with an option for dynamic workspace names.
-- **System Tray**: Interact with system tray icons, with the ability to pin icons.
-- **Search and Tiling Direction Controls**: Quickly access your launcher and toggle tiling direction.
-- **Volume Control**: Adjust volume, mute/unmute, and open a volume slider.
-- **Current Window Display**: View the current window title and access window controls.
-- **System Stats**: A summary of CPU, RAM, and weather information, which opens the `system-stats` widget on click.
-- **Date/Time**: Displays the current date and time, and opens the `config-widget` on click.
+## Requisiti
 
-### System-Stats Widget
+- **Windows** (Zebar è cross-platform ma questo README documenta il setup Windows)
+- **[GlazeWM](https://github.com/glzr-io/glazewm)** installato
+- **[Zebar](https://github.com/glzr-io/zebar)** installato (Scoop / winget / installer ufficiale)
+- **Node.js** ≥ 20
+- **pnpm** — il repo enforce pnpm via `preinstall`. Se non vuoi installarlo globalmente puoi usare `corepack pnpm <cmd>` dopo aver fatto almeno una volta `corepack prepare pnpm@latest --activate`.
 
-This widget provides a detailed view of your system's statistics, including:
+## Installazione rapida (pack locale)
 
-- **Host Information**: OS, hostname, uptime, and battery information.
-- **Storage**: A list of all connected drives with their usage.
-- **Performance**: CPU and memory usage details.
-- **Network**: Detailed information about network interfaces, traffic, and addresses.
-
-### Config Widget
-
-A comprehensive GUI for configuring all aspects of the widgets, from appearance to functionality. See the [Configuration](#configuration) section for more details.
-
-### Script-Launcher Widget
-
-A simple but powerful widget that allows you to define and quickly run custom shell commands or scripts. Access the main **config-widget** by clicking the settings (gear) icon in the bottom right.
-
-## Installation
-
-### Option 1: The Zebar Marketplace (Recommended)
-
-1.  Right-click the Zebar tray icon, and click **Browse Widgets**.
-2.  Search for **"overline-zebar"**.
-3.  Click **Install**.
-4.  Continue to the [Configuration](#configuration) section.
-
-### Option 2: Build from Source
-
-Choose this option if you want to customize the widget's functionality, modify the source code, or contribute to the development.
-
-**Prerequisites:**
-
-- [Node.js](https://nodejs.org/) (v16 or newer)
-- [pnpm](https://pnpm.io/)
-- [Git](https://git-scm.com/)
-
-**Steps:**
-
-1.  Clone the repository to your local machine inside the `.glzr` directory (e.g., `C:/Users/<USER>/.glzr/zebar` on Windows):
-
-    ```sh
-    git clone https://github.com/mushfikurr/overline-zebar.git
-    cd overline-zebar
-    ```
-
-2.  Install all required dependencies using pnpm:
-
-    ```sh
-    pnpm install
-    ```
-
-3.  Build the project for production:
-
-    ```sh
-    pnpm --filter "@overline-zebar/*" build
-    ```
-
-    This creates a `dist` folder in each widget's directory, containing the compiled widget ready for use.
-
-4.  See the [Configuration](#configuration) section below for details on how to customize the widgets.
-
-## Configuration
-
-`overline-zebar` is highly configurable through the **config-widget**. To open it, click on the left-most button (Script Launcher), and then the "Gear Icon".
-
-### (!) For Zebar specific settings
-
-To configure zebar specific settings when downloading from marketplace, you must copy the downloaded widget from:
-
-`%appdata%/zebar/downloads` -> `C:/Users/<username>/.glzr/zebar/`
-
-This will save the widget to a custom pack. You will now be able to configure the widget through the `zpack.json` file.
-
-The config-widget itself provides a user-friendly interface to manage internal widget settings. Keep in mind it is not 1:1 with the Zebar settings.
-
-Here's a breakdown of the available options:
-
-### General
-
-- **Enable Auto Tiling**: Automatically changes the tiling direction when a window reaches half its size.
-- **Zebar WebSocket URI**: The address where Zebar listens for events from GlazeWM.
-
-### Appearance
-
-- **Border Radius**: Adjust the roundness of elements.
-- **Theme**: Choose from a list of preset themes (including Catppuccin variants) or generate your own from a single color. The theme generator creates a rich, varied palette with distinct shades and high-contrast, tinted text, ensuring both readability and a unique aesthetic. The theme editor allows you to:
-  - Select, add, and delete themes.
-  - Customize every color in the theme with a color picker and eye-dropper.
-  - Preview changes in real-time.
-
-### Config Management
-
-- **Export Configuration**: Download your current settings as a JSON file.
-- **Import Configuration**: Load settings from a JSON file.
-- **Reset Configuration**: Restore all settings to their default values.
-
-### Widget Specific > Main (Topbar)
-
-#### General
-
-- **Launcher Path**: The file path to your preferred application launcher (e.g., Flow Launcher, PowerToys Run).
-- **Allow Dynamic Workspace Indicators**: If enabled, workspace indicators will be named after the first opened window in that workspace.
-- **Horizontal Margin**: Adds space to the left and right of the topbar for a "floating" look.
-- **Left/Right Padding**: Adjusts the inner spacing on the left and right ends of the topbar independently.
-- **Media Max Width**: Sets the maximum width for the media display.
-
-#### Stats
-
-- **Providers**: Enable or disable individual system stat providers (CPU, Memory, Weather).
-- **Toggle Fahrenheit**: Switch between Celsius and Fahrenheit for the weather display.
-- **Thresholds**: Customize the display colors for different temperature ranges. By default, there are four configurable thresholds, each with a minimum and maximum temperature value. The available colors (Danger, Warning, and Text) are derived from your chosen theme.
-
-#### System Tray
-
-- **Pinned Icons**: Select which icons should remain visible when the system tray is collapsed. You can toggle the collapsed state by Shift-clicking the system tray icons.
-
-### Widget Specific > Script Launcher
-
-- **Accessing Configuration**: Open the main **config-widget** by clicking the settings (gear) icon in the bottom right of the script launcher.
-- **Scripts**: Add, edit, and remove custom scripts. Each script has a name (which is displayed in the widget) and a shell command to be executed.
-
-## Development
-
-To see live changes during development, follow the steps to build from source:
+Zebar cerca i **pack custom** in `~/.glzr/zebar/*/zpack.json`. L'ID del pack corrisponde al campo `name` di `zpack.json`.
 
 ```sh
-pnpm run build
+# 1. Clona il fork dentro la cartella di config di Zebar
+git clone https://github.com/Lerma4/overline-zebar-fork.git "$HOME/.glzr/zebar/overline-fork"
+cd "$HOME/.glzr/zebar/overline-fork"
+
+# 2. Installa le dipendenze (usa corepack se non hai pnpm globale)
+corepack prepare pnpm@latest --activate
+corepack pnpm install
+
+# 3. Builda tutti i widget
+corepack pnpm --filter "@overline-zebar/*" build
 ```
 
-This command will build all monorepo packages and widgets. To work on a specific widget, run:
+Poi registra il pack nel tuo `settings.json` di Zebar (`~/.glzr/zebar/settings.json`):
+
+```json
+{
+  "$schema": "https://github.com/glzr-io/zebar/raw/v3.3.1/resources/settings-schema.json",
+  "startupConfigs": [
+    { "pack": "overline-fork", "widget": "main", "preset": "default" }
+  ]
+}
+```
+
+Riavvia Zebar (tray → Exit, poi riapri). La barra dovrebbe apparire automaticamente all'avvio.
+
+> Il valore di `pack` deve coincidere con il campo `name` di `zpack.json` del fork (`overline-fork`). Non è una stringa `autore.nome` come per i pack marketplace.
+
+### Coesistenza con il pack marketplace
+
+Se hai già installato `mushfikurr.overline-zebar` dal marketplace Zebar (si trova in `%APPDATA%\zebar\downloads\`), il fork e l'originale **coesistono senza conflitti**, perché risiedono in posizioni diverse e hanno ID di pack distinti. In `startupConfigs` puoi scegliere quale usare.
+
+## Struttura del progetto
+
+Monorepo pnpm:
+
+```
+overline-zebar-fork/
+├─ zpack.json              # manifest pack: widget, preset, privileges
+├─ packages/
+│  ├─ config/              # gestione settings condivisi
+│  ├─ ui/                  # React component library (Chip, ecc.)
+│  ├─ tailwind/            # config Tailwind condivisa
+│  └─ typescript/          # tsconfig base
+└─ widgets/
+   ├─ main/                # topbar principale (il file modificato sta qui)
+   ├─ system-stats/        # pannello statistiche hover
+   ├─ script-launcher/     # launcher script custom
+   └─ config-widget/       # GUI di configurazione
+```
+
+Ogni widget builda in `widgets/<nome>/dist/` e Zebar carica `dist/index.html` come webview.
+
+## Workflow di sviluppo
+
+### Modifica → build → reload
+
+1. **Edit** dei sorgenti in `widgets/<widget>/src/`.
+2. **Build** del solo widget modificato (più veloce che buildare tutto il monorepo):
+
+   ```sh
+   cd widgets/main
+   corepack pnpm build
+   ```
+
+3. **Reload** di Zebar — dalla tray fai Exit e riapri, oppure toggle del widget dalla Settings UI. Se dopo il reload vedi ancora la versione vecchia, svuota la webview cache:
+
+   ```sh
+   rm -rf "$APPDATA/zebar/webview-cache"
+   ```
+
+### Build incrementale (watch)
+
+Per il singolo widget:
 
 ```sh
-pnpm run build:watch --filter <widget-name>
+cd widgets/main
+corepack pnpm build:watch
 ```
 
-This will start the development server for all widgets with hot reloading. Zebar will automatically restart on save if the widget is selected.
+Così ogni save rigenera `dist/`. Devi comunque ricaricare il widget in Zebar (la webview non fa HMR diretto sul filesystem di `dist`).
 
-## Contributions
+### Lint & format
 
-Pull requests are welcome. If you find any issues or have feature suggestions, feel free to open an issue on GitHub.
+```sh
+corepack pnpm lint
+corepack pnpm format
+```
+
+## Come funziona l'integrazione con Zebar
+
+Zebar scansiona due tipi di pack:
+
+- **Custom pack**: `~/.glzr/zebar/*/zpack.json` — l'ID è il campo `name` di `zpack.json` (es. `overline-fork`).
+- **Marketplace pack**: `%APPDATA%\zebar\downloads\<autore>.<nome>@<version>\zpack.json` — l'ID è `<autore>.<nome>` dai metadata del marketplace.
+
+Ogni widget descritto in `zpack.json` specifica:
+- `htmlPath` → punto d'ingresso della webview (tipicamente `./widgets/<nome>/dist/index.html`)
+- `presets[]` → posizione/dimensione/monitor
+- `privileges.shellCommands[]` → whitelist dei comandi shell invocabili via `glazewm` provider
+
+In codice, un widget consuma dati di sistema via il package npm `zebar`:
+
+```ts
+import * as zebar from 'zebar';
+
+const providers = zebar.createProviderGroup({
+  glazewm: { type: 'glazewm' },
+  cpu: { type: 'cpu' },
+  media: { type: 'media' },
+  // ...
+});
+
+providers.onOutput(() => {
+  // state live in providers.outputMap
+});
+```
+
+## Rollback
+
+Per tornare al pack marketplace (o disabilitare del tutto il fork):
+
+```sh
+# Opzione A: ripristina il backup del tuo settings.json (se ne hai fatto uno)
+cp ~/.glzr/zebar/settings.json.bak ~/.glzr/zebar/settings.json
+
+# Opzione B: edita settings.json e metti come pack "mushfikurr.overline-zebar"
+# (richiede che il pack marketplace sia installato)
+
+# Rimuovi il fork (il pack marketplace non viene toccato)
+rm -rf ~/.glzr/zebar/overline-fork
+```
+
+Riavvia Zebar e sei tornato allo stato precedente.
+
+## Troubleshooting
+
+**Errore in `errors.log`: `No widget pack found for 'overline-fork'`**
+Controlla che:
+- la cartella sia esattamente in `~/.glzr/zebar/overline-fork/`
+- esista `zpack.json` in quella cartella
+- `zpack.json` abbia `"name": "overline-fork"` (stesso valore del campo `pack` in `settings.json`)
+- ogni widget referenziato abbia `dist/index.html` (serve aver fatto `pnpm build` almeno una volta)
+
+**`pnpm` non è riconosciuto**
+Se hai installato pnpm via corepack ma non è sul PATH, usa `corepack pnpm <cmd>` oppure installalo globalmente con Scoop: `scoop install pnpm`.
+
+**Build che sembra bloccata su `script-launcher`**
+Entra direttamente nel widget e fai la build mirata:
+
+```sh
+cd widgets/script-launcher
+corepack pnpm build
+```
+
+Poi rilancia il build dell'intero monorepo.
+
+**Vedi ancora la versione vecchia dopo il reload**
+Svuota la webview cache:
+
+```sh
+rm -rf "$APPDATA/zebar/webview-cache"
+```
+
+## Crediti
+
+- **Upstream**: [mushfikurr/overline-zebar](https://github.com/mushfikurr/overline-zebar) — topbar, widget di sistema, config UI, script launcher.
+- **Piattaforma**: [glzr-io/zebar](https://github.com/glzr-io/zebar) — framework per widget desktop cross-platform.
+- **Window manager**: [glzr-io/glazewm](https://github.com/glzr-io/glazewm).

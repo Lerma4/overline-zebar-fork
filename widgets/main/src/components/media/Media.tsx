@@ -1,5 +1,6 @@
 import React from 'react';
 import { MediaOutput } from 'zebar';
+import { SkipBack, SkipForward } from 'lucide-react';
 import { cn } from '../../utils/cn';
 import { ConditionalPanel } from '../common/ConditionalPanel';
 import { ProgressBar } from './components/ProgressBar';
@@ -61,31 +62,69 @@ export default function Media({ media }: MediaProps) {
     }
   };
 
+  const handlePrevious = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    previous({ sessionId: currentSession?.sessionId });
+  };
+
+  const handleNext = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    next({ sessionId: currentSession?.sessionId });
+  };
+
   return (
-    <button
-      className={
-        'flex gap-2 select-none cursor-pointer outline-none relative h-full'
-      }
-      onClick={(e) => {
-        handlePlayPause(e, currentSessionIdx);
-      }}
-    >
-      <ConditionalPanel sessionActive={!!currentSession}>
-        <Chip
+    <ConditionalPanel sessionActive={!!currentSession}>
+      <div className="flex items-center gap-1 h-full select-none">
+        <button
+          type="button"
+          aria-label="Previous track"
+          onClick={handlePrevious}
           className={cn(
-            'relative flex gap-2 select-none cursor-pointer overflow-clip group',
-            'active:bg-background-deeper/90'
+            'flex items-center justify-center h-full w-7 rounded-2xl',
+            'bg-background-deeper border border-border drop-shadow-sm',
+            'hover:border-button-border active:bg-background-deeper/90',
+            'transition-colors ease-in-out duration-200 cursor-pointer outline-none'
           )}
         >
-          <Status isPlaying={currentSession?.isPlaying ?? false} />
-          <TitleDetails
-            title={currentSession?.title}
-            artist={currentSession?.artist}
-          />
+          <SkipBack className="text-icon h-3 w-3" strokeWidth={3} />
+        </button>
 
-          <ProgressBar currentSession={currentSession} />
-        </Chip>
-      </ConditionalPanel>
-    </button>
+        <button
+          type="button"
+          aria-label="Play/pause"
+          onClick={(e) => handlePlayPause(e, currentSessionIdx)}
+          className="flex gap-2 cursor-pointer outline-none relative h-full"
+        >
+          <Chip
+            className={cn(
+              'relative flex gap-2 select-none cursor-pointer overflow-clip group',
+              'active:bg-background-deeper/90'
+            )}
+          >
+            <Status isPlaying={currentSession?.isPlaying ?? false} />
+            <TitleDetails
+              title={currentSession?.title}
+              artist={currentSession?.artist}
+            />
+
+            <ProgressBar currentSession={currentSession} />
+          </Chip>
+        </button>
+
+        <button
+          type="button"
+          aria-label="Next track"
+          onClick={handleNext}
+          className={cn(
+            'flex items-center justify-center h-full w-7 rounded-2xl',
+            'bg-background-deeper border border-border drop-shadow-sm',
+            'hover:border-button-border active:bg-background-deeper/90',
+            'transition-colors ease-in-out duration-200 cursor-pointer outline-none'
+          )}
+        >
+          <SkipForward className="text-icon h-3 w-3" strokeWidth={3} />
+        </button>
+      </div>
+    </ConditionalPanel>
   );
 }
